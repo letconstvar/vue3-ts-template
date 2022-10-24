@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
 import { message } from 'ant-design-vue';
+import httpStatusCodeHandler from './httpStatusCodeHandler';
 
 const instance: AxiosInstance = axios.create({
   baseURL: '/proxy',
@@ -31,34 +32,28 @@ instance.interceptors.response.use(
     return res;
   },
   (err): AxiosResponse => {
-    handleResponseStatus(err.response.status);
+    // handleResponseStatus(err.response.status);
+    httpStatusCodeHandler.sendMessage(err.response.status, message);
     return err;
   }
 );
 
+/*
 function handleResponseStatus(status: number) {
-  let text = '';
-  switch (status) {
-    case 400:
-      text = '参数错误，请确认参数是否提交完整';
-      break;
-    case 401:
-      text = '登陆超时，请重新登陆';
-      window.location.href = '/';
-      break;
-    case 403:
-      text = '无权限';
-      break;
-    case 404:
-      text = '资源不存在';
-      break;
-    case 500:
-      text = '服务错误';
-      break;
-    default:
-      text = '请求失败';
+  const tipsMap = new Map([
+    [400, '参数错误，请确认参数是否提交完整'],
+    [401, '登陆超时，请重新登陆'],
+    [403, '无权限'],
+    [404, '资源不存在'],
+    [500, '服务错误'],
+  ]);
+  const tip = tipsMap.get(status) || '请求失败';
+  message.error(tip);
+
+  if (status === 401) {
+    location.href = '/';
   }
-  message.error(text);
 }
+*/
 
 export default instance;
