@@ -3,14 +3,7 @@ import {
   DesktopOutlined,
   ProfileOutlined,
 } from '@ant-design/icons-vue';
-
-export interface MenuItemType {
-  key: string;
-  path: string;
-  icon: unknown;
-  label: string;
-  children: null | MenuItemType[];
-}
+import { MenuItemType } from './types';
 
 export const MenuItems: MenuItemType[] = [
   {
