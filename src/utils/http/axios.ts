@@ -32,28 +32,9 @@ instance.interceptors.response.use(
     return res;
   },
   (err): AxiosResponse => {
-    // handleResponseStatus(err.response.status);
     httpStatusCodeHandler.sendMessage(err.response.status, message);
     return err;
   }
 );
-
-/*
-function handleResponseStatus(status: number) {
-  const tipsMap = new Map([
-    [400, '参数错误，请确认参数是否提交完整'],
-    [401, '登陆超时，请重新登陆'],
-    [403, '无权限'],
-    [404, '资源不存在'],
-    [500, '服务错误'],
-  ]);
-  const tip = tipsMap.get(status) || '请求失败';
-  message.error(tip);
-
-  if (status === 401) {
-    location.href = '/';
-  }
-}
-*/
 
 export default instance;
