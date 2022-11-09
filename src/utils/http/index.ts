@@ -1,5 +1,5 @@
 import request from './axios';
-import { ResponseType } from '../../types/index';
+import { ResponseType } from '@/types/http';
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const _get = <T = any>(

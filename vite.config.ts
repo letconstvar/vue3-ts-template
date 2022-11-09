@@ -18,6 +18,15 @@ export default defineConfig(({ command, mode }): UserConfig => {
   const { VITE_PORT, VITE_GLOB_API_URL } = loadEnv(mode, root);
 
   return {
+    /**
+     * fix: The esm-bundler builds now exposes global feature flags that can be overwritten at compile time
+     * see: https://vue-i18n.intlify.dev/guide/advanced/optimization.html#reduce-bundle-size-with-feature-build-flags
+     */
+    define: {
+      __VUE_I18N_FULL_INSTALL__: true,
+      __VUE_I18N_LEGACY_API__: false,
+      __INTLIFY_PROD_DEVTOOLS__: false,
+    },
     plugins: [
       vue(),
       eslintPlugin({
@@ -36,7 +45,7 @@ export default defineConfig(({ command, mode }): UserConfig => {
       port: Number(VITE_PORT),
       proxy: {
         '^/proxy/.*': {
-          target: 'http://192.168.31.185:60603',
+          target: 'http://127.0.0.1:3000',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/proxy/, ''),
         },
